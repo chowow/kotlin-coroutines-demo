@@ -1,4 +1,4 @@
-package before
+package after
 
 import aBitOfTime
 import sleep
@@ -8,10 +8,12 @@ import java.util.concurrent.Executors
 import kotlin.system.measureTimeMillis
 
 fun main() {
+    val threadPool = Executors.newFixedThreadPool(3)
     val urls = asList("www.google.com", "www.github.com", "www.tyro.com")
     for (url in urls) {
-        println(fetch(url))
+        threadPool.submit { println(fetch(url)) }
     }
+    threadPool.shutdown()
 }
 
 private fun fetch(url: String): Pair<String, Long> {
